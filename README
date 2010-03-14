@@ -9,6 +9,13 @@ The only thing this plugin does, is extend Capistrano. No Rails code is loaded.
 Capistrano loads the scripts in the recipes directory, and that's just what we need.
 
 
+Installation
+============
+
+ruby script/plugin install http://github.com/tilsammans/Capistrano-Database-Tasks.git
+
+
+
 Example
 =======
 
@@ -16,13 +23,13 @@ cap db:fetch    # Fetch the remote production database and overwrite your local 
 
 
 
-PREREQUISITES
+Prerequisites
 =============
 
 This Capistrano extension assumes some variables are present in your deploy.rb:
 
-user		# the SSH user for connecting to the deploy host
-deploy_host	# the host on which to run the db dump
+user			# the SSH user for connecting to the deploy host
+deploy_host		# the host on which to run the db dump
 
 
 Copyright (c) 2010 Joost Baaij, released under the MIT license
