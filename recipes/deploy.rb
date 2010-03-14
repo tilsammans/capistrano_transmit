@@ -7,8 +7,8 @@ set(:db_local) do
   YAML::load_file("config/database.yml")['development']
 end
 
-desc 'Fetch the remote production database and overwrite your local development database with it'
 namespace :db do
+  desc 'Fetch the remote production database and overwrite your local development database with it'
   task :fetch, :roles => :db do
     dumpfile = "#{current_path}/tmp/#{db_remote['database']}.sql"
     run "mysqldump --opt -u #{db_remote['username']} --password=#{db_remote['password']} -h #{db_remote['host']} #{db_remote['database']} > #{dumpfile}"
