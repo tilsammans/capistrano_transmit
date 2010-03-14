@@ -12,7 +12,17 @@ Capistrano loads the scripts in the recipes directory, and that's just what we n
 Example
 =======
 
-cap db:fetch
+cap db:fetch    # Fetch the remote production database and overwrite your local development database with it
+
+
+
+PREREQUISITES
+=============
+
+This Capistrano extension assumes some variables are present in your deploy.rb:
+
+user		# the SSH user for connecting to the deploy host
+deploy_host	# the host on which to run the db dump
 
 
 Copyright (c) 2010 Joost Baaij, released under the MIT license
