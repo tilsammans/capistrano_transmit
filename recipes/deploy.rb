@@ -20,3 +20,10 @@ namespace :db do
     system "rm tmp/#{db_local["database"]}.sql"
   end
 end
+
+namespace :assets do
+  desc 'Fetch the assets from the production server to the development environment'
+  task :fetch, :roles => :app do
+    system "rsync -Lcrvz #{user}@#{deploy_host}:#{current_path}/public ."
+  end
+end

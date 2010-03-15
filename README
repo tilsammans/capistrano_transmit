@@ -1,9 +1,8 @@
 CapistranoDatabaseTasks
 =======================
 
-A plugin to fetch the production database and overwrite your local development database.
-I am going to add methods for assets as well. And who knows, methods to push your
-development database to the production server as well. Although I think that's scary.
+This plugin allows you to fetch the production database and assets and store them
+on your local development environment.
 
 The only thing this plugin does, is extend Capistrano. No Rails code is loaded.
 Capistrano loads the scripts in the recipes directory, and that's just what we need.
@@ -12,15 +11,15 @@ Capistrano loads the scripts in the recipes directory, and that's just what we n
 Installation
 ============
 
-ruby script/plugin install http://github.com/tilsammans/Capistrano-Database-Tasks.git
+ruby script/plugin install git://github.com/tilsammans/Capistrano-Database-Tasks.git
 
 
 
-Example
-=======
+Examples
+========
 
-cap db:fetch    # Fetch the remote production database and overwrite your local development database with it
-
+cap db:fetch        # Fetch the remote production database and overwrite your local development database with it
+cap assets:fetch    # Fetch the remote assets into your local development environment
 
 
 Prerequisites
