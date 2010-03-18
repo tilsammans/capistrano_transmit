@@ -1,25 +1,37 @@
-CapistranoDatabaseTasks
-=======================
+capistrano_production_fetch
+===========================
 
-This plugin allows you to fetch the production database and assets and store them
-on your local development environment.
+This Ruby on Rails plugin allows you to fetch the production database and
+assets and store them in your local development environment. For reasonably
+sized projects, you should do this regularly since you will notice typical
+production-related slowdowns such as missing indexes. The task to fetch
+assets helps keep your images un-broken, which is always nice.
 
 The only thing this plugin does, is extend Capistrano. No Rails code is loaded.
-Capistrano loads the scripts in the recipes directory, and that's just what we need.
+Capistrano loads the scripts in the recipes directory, and that's just what we
+need.
+
+The plugin uses rsync to transfer the files, which means any existing files are
+skipped and/or appended based on their checksum. The transfers are compressed
+as well so we don't need to gzip the contents first. All this assumes both your
+production and development environment are Unix. Tested on Linux production and
+Mac OS X development.
 
 
 Installation
 ============
 
-ruby script/plugin install git://github.com/tilsammans/Capistrano-Database-Tasks.git
+ruby script/plugin install git://github.com/tilsammans/capistrano_production_fetch.git
 
 
 
 Examples
 ========
 
-cap db:fetch        # Fetch the remote production database and overwrite your local development database with it
-cap assets:fetch    # Fetch the remote assets into your local development environment
+cap fetch:db        # Fetch the remote production database
+                    # and overwrite your local development database with it
+cap fetch:assets    # Fetch the remote assets into your local development environment
+
 
 
 Prerequisites
