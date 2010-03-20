@@ -28,9 +28,12 @@ ruby script/plugin install git://github.com/tilsammans/capistrano_production_fet
 Examples
 ========
 
-cap fetch:db        # Fetch the remote production database
-                    # and overwrite your local development database with it
-cap fetch:assets    # Fetch the remote assets into your local development environment
+cap transmit:get:db			# Fetch the remote production database
+							# and overwrite your local development database with it
+cap transmit:get:assets		# Fetch the remote assets into your local development environment
+
+
+cap transmit:put:db			# Overwrite the production database with your development data
 
 
 
@@ -39,8 +42,8 @@ Prerequisites
 
 This Capistrano extension assumes some variables are present in your deploy.rb:
 
-user			# the SSH user for connecting to the deploy host
-deploy_host		# the host on which to run the db dump
+user						# the SSH user for connecting to the deploy host
+deploy_host					# the host on which to run the db dump
 
 
 Copyright (c) 2010 Joost Baaij, released under the MIT license
