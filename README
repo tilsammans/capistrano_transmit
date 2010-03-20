@@ -1,5 +1,7 @@
-capistrano_production_fetch
-===========================
+Capistrano Transmit
+===================
+
+Rails tasks to work with production data and assets.
 
 This Ruby on Rails plugin allows you to fetch the production database and
 assets and store them in your local development environment. For reasonably
@@ -21,19 +23,19 @@ Mac OS X development.
 Installation
 ============
 
-ruby script/plugin install git://github.com/tilsammans/capistrano_production_fetch.git
+ruby script/plugin install git://github.com/tilsammans/capistrano_transmit.git
 
 
 
 Examples
 ========
 
-cap transmit:get:db			# Fetch the remote production database
+cap transmit:get:mysql		# Fetch the remote production MySQL database
 							# and overwrite your local development database with it
 cap transmit:get:assets		# Fetch the remote assets into your local development environment
 
 
-cap transmit:put:db			# Overwrite the production database with your development data
+cap transmit:put:mysql		# Overwrite the production MySQL database with your development data
 
 
 
