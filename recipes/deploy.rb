@@ -42,6 +42,4 @@ set(:db_local) do
   YAML::load_file("config/database.yml")['development']
 end
 
-set(:dumpfile) do
-  "#{current_path}/tmp/#{db_remote['database']}.sql"
-end
+set :dumpfile, "#{current_path}/tmp/#{db_remote['database']}.sql"
