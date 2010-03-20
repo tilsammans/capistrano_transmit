@@ -1,7 +1,6 @@
 namespace :fetch do
   desc 'Fetch the remote production database and overwrite your local development database with it'
   task :db, :roles => :db do
-    dumpfile = "#{current_path}/tmp/#{db_remote['database']}.sql"
     run "mysqldump --opt -u #{db_remote['username']} --password=#{db_remote['password']} -h #{db_remote['host']} #{db_remote['database']} > #{dumpfile}"
 
     system "rsync -vP #{user}@#{deploy_host}:#{dumpfile} tmp/#{db_local["database"]}.sql"
@@ -17,6 +16,17 @@ namespace :fetch do
   end
 end
 
+namespace :put do
+  desc 'Upload the local development database to the remote production database and overwrite it'
+  task :db, :roles => :db do
+    system "mysqldump --opt -u #{db_local['username']} --password=#{db_local['password']} -h #{db_local['host']} #{db_local['database']} > tmp/#{db_local['database']}.sql"
+    system "rsync -vP tmp/#{db_local['database']}.sql #{user}@#{deploy_host}:#{dumpfile}"
+    run "mysql -u #{db_local['username']} --password=#{db_local['password']} #{db_local['database']} < #{dumpfile}"
+    run "rm #{dumpfile}"
+    system "rm tmp/#{db_local['database']}.sql"
+  end
+end
+
 set(:db_remote) do
   db_config = capture "cat #{current_path}/config/database.yml"
   YAML::load(db_config)['production']
@@ -24,4 +34,8 @@ end
 
 set(:db_local) do
   YAML::load_file("config/database.yml")['development']
+end
+
+set(:dumpfile) do
+  "#{current_path}/tmp/#{db_remote['database']}.sql"
 end
