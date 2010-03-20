@@ -1,3 +1,6 @@
+after "transmit:get:mysql", "transmit:cleanup"
+after "transmit:put:mysql", "transmit:cleanup"
+
 namespace :transmit do
   namespace :get do
     desc 'Fetch the remote production database and overwrite your local development database with it'
@@ -6,9 +9,6 @@ namespace :transmit do
 
       system "rsync -vP #{user}@#{deploy_host}:#{dumpfile} tmp/#{db_local["database"]}.sql"
       system "mysql -u #{db_local['username']} --password=#{db_local['password']} #{db_local['database']} < tmp/#{db_local["database"]}.sql"
-
-      run "rm #{dumpfile}"
-      system "rm tmp/#{db_local["database"]}.sql"
     end
 
     desc 'Fetch the assets from the production server to the development environment'
@@ -24,10 +24,12 @@ namespace :transmit do
 
       system "rsync -vP tmp/#{db_local['database']}.sql #{user}@#{deploy_host}:#{dumpfile}"
       run "mysql -u #{db_remote['username']} --password=#{db_remote['password']} -h #{db_remote['host']} #{db_remote['database']} < #{dumpfile}"
-
-      run "rm #{dumpfile}"
-      system "rm tmp/#{db_local['database']}.sql"
     end
+  end
+  
+  task :cleanup do
+    run "rm #{dumpfile}"
+    system "rm tmp/#{db_local['database']}.sql"
   end
 end
 
