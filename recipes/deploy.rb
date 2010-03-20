@@ -23,7 +23,7 @@ namespace :transmit do
       system "mysqldump --opt -u #{db_local['username']} --password=#{db_local['password']} #{db_local['database']} > tmp/#{db_local['database']}.sql"
 
       system "rsync -vP tmp/#{db_local['database']}.sql #{user}@#{deploy_host}:#{dumpfile}"
-      run "mysql -u #{db_remote['username']} --password=#{db_remote['password']} #{db_remote['database']} < #{dumpfile}"
+      run "mysql -u #{db_remote['username']} --password=#{db_remote['password']} -h #{db_remote['host']} #{db_remote['database']} < #{dumpfile}"
 
       run "rm #{dumpfile}"
       system "rm tmp/#{db_local['database']}.sql"
