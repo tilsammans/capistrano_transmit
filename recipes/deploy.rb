@@ -5,7 +5,7 @@ namespace :transmit do
   namespace :get do
     desc 'Fetch the remote production database and overwrite your local development database with it'
     task :mysql, :roles => :db do
-      run "mysqldump --opt -u #{db_remote['username']} --password='#{db_remote['password']}' -h #{db_remote['host']} #{db_remote['database']} > #{dumpfile}"
+      run "mysqldump -q -e --opt -u #{db_remote['username']} --password='#{db_remote['password']}' -h #{db_remote['host']} #{db_remote['database']} > #{dumpfile}"
 
       system "rsync -vP #{user}@#{deploy_host}:#{dumpfile} tmp/#{db_local["database"]}.sql"
       system "mysql -u #{db_local['username']} --password='#{db_local['password']}' #{db_local['database']} < tmp/#{db_local["database"]}.sql"
