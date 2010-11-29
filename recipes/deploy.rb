@@ -5,7 +5,7 @@ namespace :transmit do
   namespace :get do
     desc 'Fetch the remote production database and overwrite your local development database with it'
     task :mysql, :roles => :db do
-      run "mysqldump --opt --quick --extended-insert -u #{db_remote['username']} --password='#{db_remote['password']}' -h #{db_remote['host']} #{db_remote['database']} | gzip > #{dumpfile}"
+      run "mysqldump --opt --quick --extended-insert --skip-lock-tables -u #{db_remote['username']} --password='#{db_remote['password']}' -h #{db_remote['host']} #{db_remote['database']} | gzip > #{dumpfile}"
 
       system "rsync -vP #{user}@#{deploy_host}:#{dumpfile} tmp/#{db_local["database"]}.sql.gz"
       system "gunzip < tmp/#{db_local["database"]}.sql.gz | mysql -u #{db_local['username']} --password='#{db_local['password']}' #{db_local['database']}"
@@ -35,7 +35,7 @@ end
 
 set(:db_remote) do
   db_config = capture "cat #{current_path}/config/database.yml"
-  YAML::load(db_config)['production']
+  YAML::load(db_config)[stage.to_s]
 end
 
 set(:db_local) do
