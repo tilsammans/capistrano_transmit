@@ -35,7 +35,7 @@ end
 
 set(:db_remote) do
   db_config = capture "cat #{current_path}/config/database.yml"
-  YAML::load(db_config)[stage.to_s]
+  YAML::load(db_config)['production']
 end
 
 set(:db_local) do
