@@ -5,10 +5,10 @@ namespace :transmit do
   namespace :get do
     desc 'Fetch the remote production database and overwrite your local development database with it'
     task :mysql, :roles => :db do
-      run "mysqldump --opt --quick --extended-insert --skip-lock-tables -u #{db_remote['username']} --password='#{db_remote['password']}' -h #{db_remote['host']} #{db_remote['database']} | gzip > #{dumpfile}"
+      run "mysqldump --opt --quick --extended-insert --skip-lock-tables -u #{db_remote['username']} --password='#{db_remote['password']}' --host='#{db_remote['host']}' #{db_remote['database']} | gzip > #{dumpfile}"
 
       system "rsync -vP #{user}@#{deploy_host}:#{dumpfile} tmp/#{db_local["database"]}.sql.gz"
-      system "gunzip < tmp/#{db_local["database"]}.sql.gz | mysql -u #{db_local['username']} --password='#{db_local['password']}' -h #{db_local['host']} #{db_local['database']}"
+      system "gunzip < tmp/#{db_local["database"]}.sql.gz | mysql -u #{db_local['username']} --password='#{db_local['password']}' --host='#{db_local['host']}' #{db_local['database']}"
     end
 
     desc 'Fetch the assets from the production server to the development environment'
@@ -20,10 +20,10 @@ namespace :transmit do
   namespace :put do
     desc 'Upload the local development database to the remote production database and overwrite it'
     task :mysql, :roles => :db do
-      system "mysqldump --opt -u #{db_local['username']} --password='#{db_local['password']}' -h #{db_local['host']} #{db_local['database']} > tmp/#{db_local['database']}.sql"
+      system "mysqldump --opt -u #{db_local['username']} --password='#{db_local['password']}' --host='#{db_local['host']}' #{db_local['database']} > tmp/#{db_local['database']}.sql"
 
       system "rsync -vP tmp/#{db_local['database']}.sql #{user}@#{deploy_host}:#{dumpfile}"
-      run "mysql -u #{db_remote['username']} --password='#{db_remote['password']}' -h #{db_remote['host']} #{db_remote['database']} < #{dumpfile}"
+      run "mysql -u #{db_remote['username']} --password='#{db_remote['password']}' --host='#{db_remote['host']}' #{db_remote['database']} < #{dumpfile}"
     end
   end
   
