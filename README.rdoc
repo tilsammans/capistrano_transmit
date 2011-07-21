@@ -1,5 +1,4 @@
-Capistrano Transmit
-===================
+= Capistrano Transmit
 
 Rails tasks to work with production data and assets.
 
@@ -19,16 +18,15 @@ as well so we don't need to gzip the contents first. All this assumes both your
 production and development environment are Unix. Tested on Linux production and
 Mac OS X development.
 
+== Installation
 
-Installation
-============
+  ruby script/plugin install git://github.com/tilsammans/capistrano_transmit.git
+  
+or in your +Gemfile+:
 
-ruby script/plugin install git://github.com/tilsammans/capistrano_transmit.git
+  gem 'capistrano_transmit'
 
-
-
-Examples
-========
+== Examples
 
 cap transmit:get:mysql		# Fetch the remote production MySQL database
 							# and overwrite your local development database with it
@@ -37,10 +35,7 @@ cap transmit:get:assets		# Fetch the remote assets into your local development e
 
 cap transmit:put:mysql		# Overwrite the production MySQL database with your development data
 
-
-
-Prerequisites
-=============
+== Prerequisites
 
 This Capistrano extension assumes some variables are present in your deploy.rb:
 
