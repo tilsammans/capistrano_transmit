@@ -25,6 +25,10 @@ Mac OS X development.
 or in your +Gemfile+:
 
   gem 'capistrano_transmit'
+  
+Then add to your deploy.rb:
+
+  require 'capistrano/transmit'
 
 == Examples
 
