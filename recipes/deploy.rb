@@ -8,7 +8,7 @@ namespace :transmit do
       run "mysqldump --opt --quick --extended-insert --skip-lock-tables -u #{db_remote['username']} --password='#{db_remote['password']}' -h #{db_remote['host']} #{db_remote['database']} | gzip > #{dumpfile}"
 
       system "rsync -vP #{user}@#{deploy_host}:#{dumpfile} tmp/#{db_local["database"]}.sql.gz"
-      system "gunzip < tmp/#{db_local["database"]}.sql.gz | mysql -u #{db_local['username']} --password='#{db_local['password']}' #{db_local['database']}"
+      system "gunzip < tmp/#{db_local["database"]}.sql.gz | mysql -u #{db_local['username']} --password='#{db_local['password']}' --host='#{db_local['host']}' #{db_local['database']}"
     end
 
     desc 'Fetch the assets from the production server to the development environment'
