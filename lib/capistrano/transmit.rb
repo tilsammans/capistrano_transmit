@@ -15,10 +15,10 @@ Capistrano::Configuration.instance.load do
     namespace :get do
       desc 'Fetch the remote production database and overwrite your local development database with it'
       task :mysql, :roles => :db do
-        run "mysqldump --opt --quick --extended-insert --skip-lock-tables -u #{_db_remote['username']} --password='#{_db_remote['password']}' --host='#{_db_remote['host']}' #{_db_remote['database']} | gzip > #{dumpfile}"
+        run "mysqldump --opt --quick --extended-insert --skip-lock-tables #{_remote_db_auth} | gzip > #{dumpfile}"
 
         system "rsync -vP #{_user_with_host}:#{dumpfile} tmp/#{_db_local["database"]}.sql.gz"
-        system "gunzip < tmp/#{_db_local["database"]}.sql.gz | mysql -u #{_db_local['username']} --password='#{_db_local['password']}' --host='#{_db_local['host']}' #{_db_local['database']}"
+        system "gunzip < tmp/#{_db_local["database"]}.sql.gz | mysql #{_local_db_auth}"
       end
 
       desc 'Fetch the assets from the production server to the development environment'
@@ -30,10 +30,10 @@ Capistrano::Configuration.instance.load do
     namespace :put do
       desc 'Upload the local development database to the remote production database and overwrite it'
       task :mysql, :roles => :db do
-        system "mysqldump --opt -u #{_db_local['username']} --password='#{_db_local['password']}' --host='#{_db_local['host']}' #{_db_local['database']} > tmp/#{_db_local['database']}.sql"
+        system "mysqldump --opt #{_local_db_auth} > tmp/#{_db_local['database']}.sql"
 
         system "rsync -vP tmp/#{_db_local['database']}.sql #{_user_with_host}:#{dumpfile}"
-        run "mysql -u #{_db_remote['username']} --password='#{_db_remote['password']}' --host='#{_db_remote['host']}' #{_db_remote['database']} < #{dumpfile}"
+        run "mysql #{_remote_db_auth} < #{dumpfile}"
       end
     end
   
@@ -50,17 +50,27 @@ Capistrano::Configuration.instance.load do
 
   # Output of the entire database.yml on the remote server.
   def _db_config
-    @_db_config ||= capture("cat #{current_path}/config/database.yml")
+    @_db_config       ||= capture("cat #{current_path}/config/database.yml")
   end
 
   # Production database configuration hash.
   def _db_remote
-    @_db_remote ||= YAML::load(_db_config)['production']
+    @_db_remote       ||= YAML::load(_db_config)['production']
   end
 
   # Development database configuration hash.
   def _db_local
-    @_db_local ||= YAML::load_file("config/database.yml")['development']
+    @_db_local        ||= YAML::load_file("config/database.yml")['development']
+  end
+  
+  # Complete remote database connection string.
+  def _remote_db_auth
+    @_remote_db_auth  ||= "-u #{_db_remote['username']} --password='#{_db_remote['password']}' --host='#{_db_remote['host']}' #{_db_remote['database']}"
+  end
+
+  # Complete local database connection string.
+  def _local_db_auth
+    @_local_db_auth   ||= "-u #{_db_local['username']} --password='#{_db_local['password']}' --host='#{_db_local['host']}' #{_db_local['database']}"
   end
   
 end
