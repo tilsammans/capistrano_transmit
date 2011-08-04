@@ -5,7 +5,7 @@ end
 Capistrano::Configuration.instance.load do
   
   _cset :user,        nil
-  _cset(:deploy_host) { find_servers(:roles => :app).first.host }
+  _cset(:deploy_host) { find_servers(:roles => :db).first.host }
   _cset(:db_config)   { capture("cat #{current_path}/config/database.yml") }
   _cset(:db_remote)   { YAML::load(db_config)['production'] }
   _cset(:db_local)    { YAML::load_file("config/database.yml")['development'] }
