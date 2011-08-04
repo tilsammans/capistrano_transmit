@@ -4,6 +4,7 @@ end
 
 Capistrano::Configuration.instance.load do
   
+  _cset :user,        nil
   _cset(:deploy_host) { find_servers(:roles => :db).first.host }
   _cset(:dumpfile)    { "#{current_path}/tmp/#{_db_remote['database']}.sql.gz" }
   
@@ -49,17 +50,17 @@ Capistrano::Configuration.instance.load do
 
   # Output of the entire database.yml on the remote server.
   def _db_config
-    capture("cat #{current_path}/config/database.yml")
+    @_db_config ||= capture("cat #{current_path}/config/database.yml")
   end
 
   # Production database configuration hash.
   def _db_remote
-    YAML::load(_db_config)['production']
+    @_db_remote ||= YAML::load(_db_config)['production']
   end
 
   # Development database configuration hash.
   def _db_local
-    YAML::load_file("config/database.yml")['development']
+    @_db_local ||= YAML::load_file("config/database.yml")['development']
   end
   
 end
