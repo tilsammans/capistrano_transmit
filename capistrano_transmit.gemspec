@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description = %q{Copies mysql databases between remote production and local development servers.}
   s.email = %q{joost@spacebabies.nl}
   s.extra_rdoc_files = ["README.rdoc", "lib/capistrano/transmit.rb"]
-  s.files = ["MIT-LICENSE", "README.rdoc", "Rakefile", "lib/capistrano/transmit.rb", "Manifest", "capistrano_transmit.gemspec"]
+  s.files = ["MIT-LICENSE", "README.rdoc", "Rakefile", "lib/capistrano/transmit.rb", "capistrano_transmit.gemspec"]
   s.homepage = %q{http://github.com/tilsammans/capistrano_transmit}
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Capistrano_transmit", "--main", "README.rdoc"]
   s.require_paths = ["lib"]
