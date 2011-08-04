@@ -5,7 +5,7 @@ end
 Capistrano::Configuration.instance.load do
   
   _cset :user,      ""
-  _cset :db_config, { capture "cat #{current_path}/config/database.yml" }
+  _cset :db_config, { capture("cat #{current_path}/config/database.yml") }
   _cset :db_remote, { YAML::load(db_config)['production'] }
   _cset :db_local,  { YAML::load_file("config/database.yml")['development'] }
   _cset :dumpfile,  { "#{current_path}/tmp/#{db_remote['database']}.sql.gz" }
