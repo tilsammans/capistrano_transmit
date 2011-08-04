@@ -43,6 +43,7 @@ A couple variables can be overridden by setting them in config/deploy.rb:
 
   user                      # SSH user, defaults to nil, which falls back to your unix user
   deploy_host               # the host on which to run the db dump, falls back to your first db
+  dumpfile                  # remote pathname to dump the database in, defaults to tmp/${production}.sql.gz
 
 
 Copyright (c) 2010-2011 Joost Baaij, released under the MIT license.
