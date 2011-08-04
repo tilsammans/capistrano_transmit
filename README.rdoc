@@ -32,19 +32,15 @@ Then add to your deploy.rb:
 
 == Examples
 
-  cap transmit:get:mysql		# Fetch the remote production MySQL database
-							              # and overwrite your local development database with it
-  cap transmit:get:assets		# Fetch the remote assets into your local development environment
-
-
+  cap transmit:get:mysql		# Fetch the production database into local development
   cap transmit:put:mysql		# Overwrite the production MySQL database with your development data
 
 == Prerequisites
 
 This Capistrano extension assumes some variables are present in your deploy.rb:
 
-  user						          # the SSH user for connecting to the deploy host
-  deploy_host					      # the host on which to run the db dump
+  user                      # the SSH user for connecting to the deploy host
+  deploy_host               # the host on which to run the db dump
 
 
 Copyright (c) 2010-2011 Joost Baaij, released under the MIT license.
