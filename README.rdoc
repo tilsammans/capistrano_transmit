@@ -18,13 +18,17 @@ as well so we don't need to gzip the contents first. All this assumes both your
 production and development environment are Unix. Tested on Linux production and
 Mac OS X development.
 
-== Installation
+== Installation for Rails 2
 
-  ruby script/plugin install git://github.com/tilsammans/capistrano_transmit.git
+In <tt>config/environments/development.rb</tt>:
+
+  config.gem 'capistrano_transmit', :lib => false
+
+== Installation for Rails 3
   
-or in your +Gemfile+:
+In your +Gemfile+ in the development group:
 
-  gem 'capistrano_transmit', '~> 1.0.0'
+  gem 'capistrano_transmit'
   
 Then add to your deploy.rb:
 
