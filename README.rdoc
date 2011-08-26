@@ -24,6 +24,10 @@ In <tt>config/environments/development.rb</tt>:
 
   config.gem 'capistrano_transmit', :lib => false
 
+Then add to your deploy.rb:
+
+  require 'capistrano/transmit'
+
 == Installation for Rails 3
   
 In your +Gemfile+ in the development group:
