@@ -55,7 +55,7 @@ Capistrano::Configuration.instance.load do
 
   # Production database configuration hash.
   def _db_remote
-    @_db_remote       ||= YAML::load(_db_config)['production']
+    @_db_remote       ||= YAML::load(_db_config)[stage.to_s]
   end
 
   # Development database configuration hash.
