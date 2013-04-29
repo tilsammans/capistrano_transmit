@@ -1,7 +1,3 @@
-unless Capistrano::Configuration.respond_to?(:instance)
-  abort "capistrano/transmit requires Capistrano 2"
-end
-
 Capistrano::Configuration.instance.load do
   
   _cset :user,        nil
