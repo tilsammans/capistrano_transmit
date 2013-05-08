@@ -3,3 +3,4 @@ doc
 Manifest
 *.gem
 Gemfile.lock
+.ruby-version
