@@ -1,8 +1,8 @@
 = Capistrano Transmit
 
-Rails tasks to work with production data and assets.
+Tasks to work with production data and assets.
 
-This Ruby on Rails plugin allows you to fetch the production database and
+This Capistrano plugin allows you to fetch the production database and
 assets and store them in your local development environment. For reasonably
 sized projects, you should do this regularly since you will notice typical
 production-related slowdowns such as missing indexes. The task to fetch
@@ -18,22 +18,12 @@ as well so we don't need to gzip the contents first. All this assumes both your
 production and development environment are Unix. Tested on Linux production and
 Mac OS X development.
 
-== Installation for Rails 2
+== Installation for Rails 3+
 
-In <tt>config/environments/development.rb</tt>:
+In +Gemfile+:
 
-  config.gem 'capistrano_transmit', :lib => false
+  gem 'capistrano_transmit', require: false, group: :development
 
-Then add to your deploy.rb:
-
-  require 'capistrano/transmit'
-
-== Installation for Rails 3
-  
-In your +Gemfile+ in the development group:
-
-  gem 'capistrano_transmit'
-  
 Then add to your deploy.rb:
 
   require 'capistrano/transmit'
@@ -54,4 +44,4 @@ A couple variables can be overridden by setting them in config/deploy.rb:
   dumpfile                  # remote pathname to dump the database in, defaults to tmp/${production}.sql.gz
 
 
-Copyright (c) 2010-2011 Joost Baaij, released under the MIT license.
+Copyright (c) 2010-2013 Joost Baaij, released under the MIT license.
