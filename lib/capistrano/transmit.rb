@@ -26,10 +26,11 @@ Capistrano::Configuration.instance.load do
     namespace :put do
       desc 'Upload the local development database to the remote production database and overwrite it'
       task :mysql, :roles => :db do
-        system "mysqldump --opt #{_local_db_auth} > tmp/#{_db_local['database']}.sql"
+        local_file = "tmp/#{_db_local['database']}.sql.gz"
+        system "mysqldump --opt --quick --extended-insert --skip-lock-tables #{_local_db_auth} | gzip > #{local_file}"
 
-        system "rsync -vP tmp/#{_db_local['database']}.sql #{_user_with_host}:#{dumpfile}"
-        run "mysql #{_remote_db_auth} < #{dumpfile}"
+        system "rsync -vP #{local_file} #{_user_with_host}:#{dumpfile}"
+        run "gunzip < #{dumpfile} | mysql #{_remote_db_auth}"
       end
     end
   
